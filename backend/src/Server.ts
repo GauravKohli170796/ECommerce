@@ -20,7 +20,7 @@ import {config} from "./config/index";
   componentsScan: false,
   mount: {
     "/api/v1/test": [
-			`${__dirname}/controllers/rest/*ts`,
+			`${__dirname}/controllers/rest/*.ts`,
 		],
   },
   swagger: [

@@ -1,4 +1,4 @@
-import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import { AppBar, Button, Divider, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import logo from "../../assets/images/logo.png";
@@ -7,13 +7,20 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import MenuIcon from '@mui/icons-material/Menu';
+import {useDispatch} from "react-redux";
+import { drawerConst } from "../../redux/constants/actionConst";
 
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const openDrawer = () => {
+    dispatch({ type: drawerConst.OPEN });
   };
 
   const handleClose = () => {
@@ -28,12 +35,12 @@ function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
           <Box sx={{display:{xs:'none',sm:"block"}}}>
             <Tooltip title="Filters" arrow>
-              <IconButton aria-label="delete" size="large" color="primary">
+              <IconButton aria-label="delete" size="large" color="primary" onClick={()=>{openDrawer()}}>
                 <FilterAltIcon fontSize="inherit" />
               </IconButton>
             </Tooltip>
             <Tooltip title="Search Products" arrow>
-              <IconButton aria-label="delete" size="large" color="primary">
+              <IconButton aria-label="delete" size="large" color="primary" onClick={()=>{openDrawer()}}>
                 <SearchIcon fontSize="inherit" />
               </IconButton>
             </Tooltip>
@@ -72,9 +79,12 @@ function Header() {
                 horizontal: 'left',
               }}
             >
-              <MenuItem onClick={handleClose}><FilterAltIcon fontSize="inherit" sx={{marginRight:"5px"}}/>Filters</MenuItem>
-              <MenuItem onClick={handleClose}><SearchIcon fontSize="inherit" sx={{marginRight:"5px"}}/>Search Products</MenuItem>
+              <MenuItem onClick={() => { handleClose(); openDrawer() }}><FilterAltIcon fontSize="inherit" sx={{ marginRight: "5px" }} />Filters</MenuItem>
+              <Divider/>
+              <MenuItem onClick={() => { handleClose(); openDrawer() }}><SearchIcon fontSize="inherit" sx={{marginRight:"5px"}}/>Search Products</MenuItem>
+              <Divider/>
               <MenuItem onClick={handleClose}><ShoppingCartIcon fontSize="inherit" sx={{marginRight:"5px"}}/>My Cart</MenuItem>
+              <Divider/>
               <MenuItem onClick={handleClose}><AccountBoxIcon fontSize="inherit" sx={{marginRight:"5px"}}/>My Account</MenuItem>
             </Menu>
           </Box>
