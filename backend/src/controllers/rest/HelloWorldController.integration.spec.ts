@@ -9,7 +9,7 @@ describe("HelloWorldController", () => {
 
   beforeEach(PlatformTest.bootstrap(Server, {
     mount: {
-      "/": HelloWorldController
+      "/": [HelloWorldController]
     }
   }));
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe("HelloWorldController", () => {
   afterEach(PlatformTest.reset);
 
   it("should call GET /hello-world", async () => {
-     const response = await request.get("/hello-world").expect(200);
+     const response = await request.get("/api/v1/test/hello-world").expect(200);
 
      expect(response.text).to.eq("hello");
   });
