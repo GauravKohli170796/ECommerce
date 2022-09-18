@@ -22,6 +22,9 @@ import {config} from "./config/index";
     "/api/v1/test": [
 			`${__dirname}/controllers/rest/*.ts`,
 		],
+    "/api/v1/product": [
+			`${__dirname}/controllers/product/*.ts`,
+		],
   },
   swagger: [
     {
