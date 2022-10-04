@@ -1,14 +1,19 @@
-import { IAction ,drawerConst} from "../constants/actionConst";
+import { IAction, drawerConst } from "../constants/actionConst";
 
-export const drawerReducer = (state = {isOpen:false}, action:IAction) => {
+export const drawerReducer = (state = { isOpen: false }, action: IAction) => {
     switch (action.type) {
         case drawerConst.OPEN:
             return {
-                isOpen: true
+                ...state,
+                isOpen: true,
+                drawerShowOption: action?.payload?.drawerShowOption
             }
         case drawerConst.CLOSE:
             return {
-                isOpen: false
+                ...state,
+                isOpen: false,
+                drawerShowOption: action?.payload?.drawerShowOption
+
             }
         default:
             return state;
