@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Alegreya', serif;
 }
 
 .App-logo {
@@ -26,6 +27,18 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.section-head{
+  color:#ea1000;
+  font-size: 25px;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  font-weight:400;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin:"16px"
 }
 
 @keyframes App-logo-spin {

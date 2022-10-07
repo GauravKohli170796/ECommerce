@@ -1,4 +1,5 @@
 export interface IAction{
+    loading?:boolean
     type: string,
     payload?: any,
     error?:any
@@ -20,4 +21,10 @@ export enum eFilterOptionsAction{
     price = "price",
     category = 'category',
     reset='reset'
+}
+
+export enum eFetchProductsActions{
+    loading = "loading",
+    success = "success",
+    failed = "failed",
 }

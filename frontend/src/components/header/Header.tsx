@@ -7,20 +7,22 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import MenuIcon from '@mui/icons-material/Menu';
-import {useDispatch} from "react-redux";
-import { drawerConst, drawerShowOptions } from "../../redux/constants/actionConst";
+import {useAppDispatch} from "../../redux/appReduxHook";
+import { drawerConst, drawerShowOptions } from "../../redux/actions/actionConst";
+import { fetchProducts } from "../../redux/actions/asyncActions";
 
 function Header() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+    //dispatch(fetchProducts());
   };
 
   const openDrawer = (showOption:drawerShowOptions) => {
-    dispatch({ type: drawerConst.OPEN,payload:{drawerShowOption:showOption} });
+    dispatch({ type: drawerConst.OPEN, payload: { drawerShowOption: showOption } });
   };
 
   const handleClose = () => {
@@ -28,10 +30,10 @@ function Header() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1}}>
+    <Box sx={{ flexGrow: 1,marginBottom:"8px",position:"sticky",top:0,left:0,zIndex:1000}}>
       <AppBar position="static" sx={{ backgroundColor: "white", color: "black" }}>
         <Toolbar>
-          <img src={logo} height="60px"></img>
+          <img src={logo} height="80px"></img>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
           <Box sx={{display:{xs:'none',sm:"block"}}}>
             <Tooltip title="Filters" arrow>

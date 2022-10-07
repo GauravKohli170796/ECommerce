@@ -13,7 +13,7 @@ import {
 import { Box } from "@mui/system";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { drawerConst, drawerShowOptions,eFilterOptionsAction} from "../../redux/constants/actionConst";
+import { drawerConst, drawerShowOptions,eFilterOptionsAction} from "../../redux/actions/actionConst";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "../../assets/images/logo.png";
 
@@ -78,11 +78,11 @@ function Drawer() {
   };
   const renderFliterComponent = () => {
     return (
-      <Box sx={{ width: "90%", margin: "5px 5px", display: "flex", flexDirection: "column" }}>
-        <Typography variant="h5" sx={{ alignSelf: "center", margin: "5px 0px" }}>
+      <Box sx={{ width: "86%", margin: "5px 5px", display: "flex", flexDirection: "column"}}>
+        <Typography variant="overline"  sx={{ alignSelf: "center", margin: "5px 0px",fontSize:"medium" }}>
           Filters
         </Typography>
-        <Button variant="outlined" sx={{ alignSelf: "flex-end", marginTop: "20px" }} onClick={()=>{dispatch({type:eFilterOptionsAction.reset})}}>
+        <Button variant="outlined" size="small" sx={{ alignSelf: "flex-end", marginTop: "20px" }} onClick={()=>{dispatch({type:eFilterOptionsAction.reset})}}>
           Clear Filters
         </Button>
         <Divider sx={{ marginY: "20px" }} />
@@ -199,8 +199,8 @@ function Drawer() {
         dispatch({ type: drawerConst.OPEN });
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", flexDirection: "column", width: { xs: "60vw", md: "25vw" } }}>
-        <img src={logo} height="50px" style={{ margin: "30px 0px 30px 0px" }} />
+      <Box sx={{ display: "flex", alignItems: "center", flexDirection: "column", width: { xs: "75vw", md: "25vw" } }}>
+        <img src={logo} height="80px" style={{ margin: "30px 0px 5px 0px" }} />
         <Divider />
         {drawerShowOption===drawerShowOptions.filter && renderFliterComponent()}
         {drawerShowOption===drawerShowOptions.search && renderSearchComponent()}

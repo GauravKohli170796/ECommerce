@@ -1,4 +1,4 @@
-import { IAction,eFilterOptionsAction } from "../constants/actionConst";
+import { IAction,eFilterOptionsAction } from "../actions/actionConst";
 const initialFilterState: {
     price: number[];
     priceSort: string;

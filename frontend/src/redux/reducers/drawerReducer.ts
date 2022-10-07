@@ -1,4 +1,4 @@
-import { IAction, drawerConst } from "../constants/actionConst";
+import { IAction, drawerConst } from "../actions/actionConst";
 
 export const drawerReducer = (state = { isOpen: false }, action: IAction) => {
     switch (action.type) {
