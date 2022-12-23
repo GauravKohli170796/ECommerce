@@ -1,16 +1,16 @@
-import {join} from "path";
-import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import "@tsed/ajv";
+import { PlatformApplication } from "@tsed/common";
+import { Configuration, Inject } from "@tsed/di";
+import "@tsed/mongoose";
 import "@tsed/platform-express"; // /!\ keep this import
+import "@tsed/swagger";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 import cors from "cors";
-import "@tsed/ajv";
-import "@tsed/swagger";
-import "@tsed/mongoose";
-import {config} from "./config/index";
+import methodOverride from "method-override";
+import { join } from "path";
+import { config } from "./config/index";
 
 @Configuration({
   ...config,
@@ -24,6 +24,9 @@ import {config} from "./config/index";
 		],
     "/api/v1/product": [
 			`${__dirname}/controllers/product/*.ts`,
+		],
+    "/api/v1/auth": [
+			`${__dirname}/controllers/auth/*.ts`,
 		],
   },
   swagger: [

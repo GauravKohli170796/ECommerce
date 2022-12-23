@@ -6,7 +6,7 @@ export interface IAddProductRequest{
     quantity: number;
     images?: string[];
     discount?: number;
-    productDetails: any;
+    productDetails: unknown;
 }
 export interface IUpdateProductRequest{
     name?: string;
@@ -16,5 +16,5 @@ export interface IUpdateProductRequest{
     quantity?: number;
     images?: string[];
     discount?: number;
-    productDetails?: any;
+    productDetails?: unknown;
 }

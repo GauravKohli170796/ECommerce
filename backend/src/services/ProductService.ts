@@ -1,6 +1,5 @@
 import { Inject, Injectable } from "@tsed/di";
 import { MongooseModel } from "@tsed/mongoose";
-import { date } from "@tsed/schema";
 import { IAddProductRequest, IUpdateProductRequest } from "../interfaces/productInterface";
 import { ProductModel } from "../models/ProductModel";
 
@@ -12,11 +11,19 @@ export class ProductService {
   // all products in pagination fashion
 
   async getAllProducts(limit: number, page: number): Promise<ProductModel[]> {
-    return await this.productModel.aggregate([
+    const response = await this.productModel.aggregate([
       {
         $facet: {
-          latestProduct: [{ $sort: { createdAt: -1 } }, { $limit: 10 }],
-          allProducts: [{ $skip: (limit * page) }, { $limit: limit }],
+          latestProduct: [
+            { $sort: { createdAt: -1 } },
+            { $limit: 10 },
+            { $project: { _id: 1, name: 1, description: 1, images: 1, discount: 1 ,price:1} }
+          ],
+          allProducts: [
+            { $skip: (limit * page) },
+            { $limit: limit },
+            { $project: { _id: 1, name: 1, description: 1, images: 1, discount: 1 ,price:1} }
+          ],
           totalProducts: [
             {
               $count: 'totalProducts'
@@ -25,17 +32,22 @@ export class ProductService {
         }
       }
     ]);
+    return response[0];
   }
 
-  async addProduct(product: IAddProductRequest): Promise<any> {
+  async getProductById(id: string): Promise<unknown>{
+    return await this.productModel.findById(id);
+  }
+
+  async addProduct(product: IAddProductRequest): Promise<unknown> {
     return await this.productModel.create(product);
   }
 
-  async updateProduct(id: string, product: IUpdateProductRequest): Promise<any> {
+  async updateProduct(id: string, product: IUpdateProductRequest): Promise<unknown> {
     return await this.productModel.updateOne({ id: id }, { $set: { ...product, updatedAt: new Date() } });
   }
 
-  async deleteProduct(id: string): Promise<any> {
+  async deleteProduct(id: string): Promise<unknown> {
     return await this.productModel.deleteOne({ id: id });
   }
 }
