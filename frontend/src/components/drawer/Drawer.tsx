@@ -1,3 +1,4 @@
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
   Checkbox,
@@ -12,13 +13,13 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { drawerConst, drawerShowOptions,eFilterOptionsAction} from "../../redux/actions/actionConst";
-import SearchIcon from "@mui/icons-material/Search";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../../assets/images/logo.png";
+import { drawerConst, drawerShowOptions, eFilterOptionsAction } from "../../redux/actions/actionConst";
+import { rootState } from "../../redux/store";
 
 function Drawer() {
-  const { isOpen ,drawerShowOption } = useSelector((state: any) => state.drawer);
+  const { isOpen ,drawerShowOption } = useSelector((state: rootState) => state.drawer);
   const { category ,price,priceSort,ratingSort} = useSelector((state: any) => state.filter);
   const dispatch = useDispatch();
   

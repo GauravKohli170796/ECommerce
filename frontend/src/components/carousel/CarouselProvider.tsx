@@ -3,18 +3,19 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import "./CarouselProvider.css";
 
-function CarouselProvider() {
+type IProp={
+  imagesArr: string[],
+  showIndicators?:boolean
+}
+
+function CarouselProvider(prop:IProp) {
   return (
-      <Carousel showIndicators={false} showThumbs={false}>
-        <div className="caurousel-img">
-          <img className="img-cover" src="https://source.unsplash.com/1620x600/?girl,bags" />
-        </div>
-        <div className="caurousel-img">
-          <img className="img-cover" src="https://source.unsplash.com/1620x600/?girl,tshirts" />
-        </div>
-        <div className="caurousel-img">
-          <img className="img-cover" src="https://source.unsplash.com/1620x600/?girl,jeans" />
-        </div>
+    <Carousel showIndicators={prop.showIndicators || false} showThumbs={prop.showIndicators || false}  autoPlay={true} interval={2000} infiniteLoop={true}>
+      {prop.imagesArr.map((image:string) => {
+        return <div className="caurousel-img">
+        <img className="img-cover" src={image} />
+      </div>
+      })}
       </Carousel>
   );
 }

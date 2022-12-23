@@ -16,7 +16,7 @@ export const productReducer = (state = initialProductState, action: IAction) => 
             return { ...state,loading:false, latestProduct: action.payload.latestProduct,allProducts:action.payload.allProducts,totalProducts:action.payload.totalProducts };
 
         case eFetchProductsActions.failed:
-            return { ...state, latestProduct:[],allProducts:[],totalProducts:[],error:action.error};
+            return { ...state,loading:false,latestProduct:[],allProducts:[],totalProducts:[],error:action.error};
 
         default:
             return state;

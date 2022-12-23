@@ -12,7 +12,8 @@ export enum drawerConst{
 
 export enum drawerShowOptions {
     filter = "filter",
-    search="search"    
+    search = "search",
+    default= "nothing"
 }
 
 export enum eFilterOptionsAction{

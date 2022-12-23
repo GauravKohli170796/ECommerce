@@ -1,8 +1,3 @@
-.App {
-  text-align: center;
-  font-family: 'Alegreya', serif;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -29,6 +24,7 @@
   color: #61dafb;
 }
 
+
 .section-head{
   color:#ea1000;
   font-size: 25px;
@@ -49,3 +45,66 @@
     transform: rotate(360deg);
   }
 }
+
+.leftText{
+  text-align: left;
+}
+.rightText{
+  text-align: right;
+}
+
+.mx-1{
+  margin-right: 8px;
+  margin-left: 8px;
+}
+.mx-2{
+  margin-right: 16px;
+  margin-left: 16px;
+}
+.mx-3{
+  margin-right: 24px;
+  margin-left: 24px;
+}
+.mx-4{
+  margin-right: 32px;
+  margin-left: 32px;
+}
+.my-1{
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.my-2{
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.my-3{
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+.my-4{
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+.centreFlex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.border{
+  border:.1px solid lightgray;
+  padding: 32px;
+}
+
+.fCenter{
+  justify-content: center;
+  align-items: center;
+}
+.fLeft{
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.fRight{
+  justify-content:flex-end;
+  align-items: flex-end;
+}
+
