@@ -3,10 +3,10 @@ import { Card, CardActions, CardContent, CardMedia, Typography } from "@mui/mate
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import { Link } from "react-router-dom";
-import { IAllProduct } from "../../models/productModel";
+import { IProduct } from "../../models/productModel";
 
 type IProp = {
-  product: IAllProduct;
+  product: IProduct;
 };
 const useStyles = makeStyles({
   root: {
@@ -21,7 +21,7 @@ function ProductCard(prop: IProp) {
   const classes = useStyles();
   
   return (
-    <Link to={`/productDetail/${prop.product._id}`} style={{textDecoration:"none"}}>
+    <Link to={`/product/productDetail/${prop.product._id}`} style={{textDecoration:"none"}}>
       <Card
       sx={{
         minWidth: 220,

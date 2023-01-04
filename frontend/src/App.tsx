@@ -1,19 +1,49 @@
 import { createTheme, ThemeProvider } from "@mui/material";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { ReactNotifications, Store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import { GetAppState } from "./AppContext";
+import AdminController from "./components/adminController/AdminController";
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
 import Drawer from "./components/drawer/Drawer";
 import Header from "./components/header/Header";
+import Loader from "./components/loader/Loader";
 import AllProducts from "./components/product/AllProducts";
 import ProductDetail from "./components/product/ProductDetail";
-import { fetchProducts } from "./redux/actions/asyncActions";
-
+import { axiosInstance } from "./services/axiosInstance";
 
 function App() {
-  const dispatch = useDispatch<any>();
+  const AppState = GetAppState();
+  axiosInstance.interceptors.request.use((config) => {
+    AppState.setLoading(true);
+    return config;
+  }, (error) => {
+    return Promise.reject(error);
+  });
+  
+  axiosInstance.interceptors.response.use(
+      response => {
+        AppState.setLoading(false);
+        return response
+      },
+      error => {
+          AppState.setLoading(false);
+          Store.addNotification({
+              message: error.response?.data?.message || "Something went wrong.",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animate__animated", "animate__fadeIn"],
+              animationOut: ["animate__animated", "animate__fadeOut"],
+              dismiss: {
+                duration: 2000,
+                onScreen: true
+              }
+            });
+      });
   const theme = createTheme({
     typography: {
       fontFamily: [
@@ -30,27 +60,28 @@ function App() {
       ].join(','),
     },
   });
-  useEffect(() => {
-    dispatch(fetchProducts("1"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+ 
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <Header></Header>
         <Drawer></Drawer>
+        <ReactNotifications/>
+        <Loader isVisible={AppState.loading} />
         <Routes>
-          <Route path="/showProducts" element={<AllProducts />} />
+          <Route path="/product/showProducts" element={<AllProducts />} />
         </Routes>
         <Routes>
-          <Route path="/productDetail/:id" element={<ProductDetail />} />
+          <Route path="/product/productDetail/:id" element={<ProductDetail />} />
         </Routes>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/auth/login" element={<Login />} />
         </Routes>
         <Routes>
-          <Route path="/Signup" element={<SignUp />} />
+          <Route path="/auth/signup" element={<SignUp />} />
+        </Routes>
+        <Routes>
+          <Route path="/admin/adminController" element={<AdminController />} />
         </Routes>
         </ThemeProvider>
     </div>

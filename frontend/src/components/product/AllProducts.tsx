@@ -1,17 +1,16 @@
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Divider, IconButton, Pagination, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
 import { AppConst } from "../../constants/AppConst";
-import { IAllProduct } from "../../models/productModel";
-import { fetchProducts } from "../../redux/actions/asyncActions";
-import { rootState } from "../../redux/store";
+import { IAllProductApiResponse, IProduct } from "../../models/productModel";
+import { getAllProducts } from "../../services/productServices";
 import CarouselProvider from "../carousel/CarouselProvider";
-import Loader from "../loader/Loader";
 import ProductCard from "./ProductCard";
 
 function AllProducts() {
+  const [products, setProducts] = useState<IAllProductApiResponse | null>(null);
+
   const tmpImages = [
     "https://source.unsplash.com/1620x600/?girl,bags",
     "https://source.unsplash.com/1620x600/?girl,tshirts",
@@ -19,38 +18,54 @@ function AllProducts() {
   ];
   const ref = useRef<HTMLDivElement>(null);
   const featureProductRef = useRef<HTMLDivElement>(null);
-  const disptach = useDispatch<any>();
-  const { allProducts, latestProduct, totalProducts, loading } = useSelector((state: rootState) => state.product);
-  const paginationCount = Math.ceil(totalProducts && totalProducts[0]?.totalProducts / AppConst.productsPerPage) || 0;
+  const paginationCount = Math.ceil((products?.totalProducts[0]?.totalProducts || 0) / AppConst.productsPerPage);
 
-  const callProductsPage = (page: string) => {
-    disptach(fetchProducts(page));
-    setTimeout(()=>{
-      featureProductRef.current?.scrollIntoView({behavior: "smooth", inline: "start"});
-    },1000)
+
+  useEffect(() => {
+    async function fetchAllProducts() {
+      const { data } = await getAllProducts("0");
+      setProducts(data);
+    }
+    fetchAllProducts();
+  }, []);
+
+
+
+
+  const callProductsPage = async(page: string) => {
+    const { data } = await getAllProducts(page);
+    const tmpProducts =  Object.assign({},products);
+    tmpProducts.allProducts = data.allProducts;
+    tmpProducts.totalProducts = data.totalProducts;
+    setProducts(tmpProducts);
+     
+    setTimeout(() => {
+      featureProductRef.current?.scrollIntoView({ behavior: "smooth", inline: "start" });
+    }, 1000)
   };
 
   const renderAllProducts = () => {
-    return allProducts.map((product: IAllProduct) => {
+    return products?.allProducts.map((product: IProduct) => {
+      console.log(product);
       return <ProductCard key={product._id} product={product} />;
     });
   };
 
   const renderLatestProducts = () => {
-    return latestProduct.map((product: IAllProduct) => {
+    return products?.latestProduct.map((product: IProduct) => {
       return <ProductCard key={product._id} product={product} />;
     });
   };
 
-  const handleScrollForLatestProducts =()=>{
-    if(ref.current){
-      ref.current.scrollLeft+=320;
-     }
+  const handleScrollForLatestProducts = () => {
+    if (ref.current) {
+      ref.current.scrollLeft += 320;
+    }
   }
 
   return (
     <>
-      <CarouselProvider imagesArr={tmpImages}/>
+      <CarouselProvider imagesArr={tmpImages} />
       <Box
         sx={{
           display: "flex",
@@ -111,7 +126,6 @@ function AllProducts() {
           />
         )}
       </Box>
-      <Loader isVisible={loading} />
     </>
   );
 }

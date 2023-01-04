@@ -1,10 +1,10 @@
-import { Property, Required, Default, Max, Min } from "@tsed/schema";
 import { Model, ObjectID } from "@tsed/mongoose";
+import { Default, Max, Min, Property, Required } from "@tsed/schema";
 
 @Model()
 export class ProductModel {
   @ObjectID("id")
-  _id: string;
+  id: string;
 
   @Property()
   @Required()
@@ -47,6 +47,6 @@ export class ProductModel {
 
   @Property()
   @Required()  
-  productDetails: Object;
+  productDetails: Record<string, unknown>;
 
 }

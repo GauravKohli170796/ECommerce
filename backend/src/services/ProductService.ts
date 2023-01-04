@@ -11,18 +11,19 @@ export class ProductService {
   // all products in pagination fashion
 
   async getAllProducts(limit: number, page: number): Promise<ProductModel[]> {
+
     const response = await this.productModel.aggregate([
       {
         $facet: {
           latestProduct: [
             { $sort: { createdAt: -1 } },
             { $limit: 10 },
-            { $project: { _id: 1, name: 1, description: 1, images: 1, discount: 1 ,price:1} }
+            { $project: { name: 1, description: 1, images: 1, discount: 1 ,price:1} }
           ],
           allProducts: [
             { $skip: (limit * page) },
             { $limit: limit },
-            { $project: { _id: 1, name: 1, description: 1, images: 1, discount: 1 ,price:1} }
+            { $project: { name: 1, description: 1, images: 1, discount: 1 ,price:1} }
           ],
           totalProducts: [
             {

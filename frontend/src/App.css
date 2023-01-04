@@ -94,8 +94,19 @@
   border:.1px solid lightgray;
   padding: 32px;
 }
+.fCol{
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+.fRow{
+  display: flex;
+  flex-direction: row;
+  column-gap: 16px;
+}
 
 .fCenter{
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -106,5 +117,13 @@
 .fRight{
   justify-content:flex-end;
   align-items: flex-end;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #FFFFFF inset;
+}
+.errorMsg{
+  color: #d32f2f;
+  font-size: 0.75 rem;
 }
 

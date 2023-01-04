@@ -14,15 +14,16 @@ import {
 import { Box } from "@mui/system";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { GetAppState } from "../../AppContext";
 import logo from "../../assets/images/logo.png";
-import { drawerConst, drawerShowOptions, eFilterOptionsAction } from "../../redux/actions/actionConst";
-import { rootState } from "../../redux/store";
+import { drawerShowOptions } from "../../constants/AppConst";
+import { eFilterOptionsAction } from "../../redux/actions/actionConst";
 
 function Drawer() {
-  const { isOpen ,drawerShowOption } = useSelector((state: rootState) => state.drawer);
-  const { category ,price,priceSort,ratingSort} = useSelector((state: any) => state.filter);
+  const AppState = GetAppState();
+  const { category, price, priceSort, ratingSort } = useSelector((state: any) => state.filter);
   const dispatch = useDispatch();
-  
+
 
   const handleRatingSort = (event: any) => {
     if (event.target.checked) {
@@ -48,17 +49,19 @@ function Drawer() {
     const val = event.target.value.toString();
     const categoryValue = val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
     if (event.target.checked) {
-      dispatch({ type: eFilterOptionsAction.category, payload: { category: [...category,categoryValue]} });
+      dispatch({ type: eFilterOptionsAction.category, payload: { category: [...category, categoryValue] } });
       return;
     }
-    const categoryFilterVal = category.filter((categoryVal:string) => categoryVal !== categoryValue);
-    dispatch({ type: eFilterOptionsAction.category, payload: { category: categoryFilterVal} });
+    const categoryFilterVal = category.filter((categoryVal: string) => categoryVal !== categoryValue);
+    dispatch({ type: eFilterOptionsAction.category, payload: { category: categoryFilterVal } });
   };
 
   const renderSearchComponent = () => {
     return (
       <Box sx={{ width: "90%", margin: "20px 5px", display: "flex", flexDirection: "column" }}>
         <TextField
+          color="secondary"
+          focused
           id="outlined-basic"
           label="Search a product"
           variant="outlined"
@@ -79,11 +82,11 @@ function Drawer() {
   };
   const renderFliterComponent = () => {
     return (
-      <Box sx={{ width: "86%", margin: "5px 5px", display: "flex", flexDirection: "column"}}>
-        <Typography variant="overline"  sx={{ alignSelf: "center", margin: "5px 0px",fontSize:"medium" }}>
+      <Box sx={{ width: "86%", margin: "5px 5px", display: "flex", flexDirection: "column" }}>
+        <Typography variant="overline" sx={{ alignSelf: "center", margin: "5px 0px", fontSize: "medium" }}>
           Filters
         </Typography>
-        <Button variant="outlined" size="small" sx={{ alignSelf: "flex-end", marginTop: "20px" }} onClick={()=>{dispatch({type:eFilterOptionsAction.reset})}}>
+        <Button variant="outlined" size="small" sx={{ alignSelf: "flex-end", marginTop: "20px" }} onClick={() => { dispatch({ type: eFilterOptionsAction.reset }) }}>
           Clear Filters
         </Button>
         <Divider sx={{ marginY: "20px" }} />
@@ -192,19 +195,19 @@ function Drawer() {
   return (
     <SwipeableDrawer
       anchor="left"
-      open={isOpen}
+      open={AppState.openDrawer}
       onClose={() => {
-        dispatch({ type: drawerConst.CLOSE });
+        AppState.setOpenDrawer(false);
       }}
       onOpen={() => {
-        dispatch({ type: drawerConst.OPEN });
+        AppState.setOpenDrawer(true);
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", flexDirection: "column", width: { xs: "75vw", md: "25vw" } }}>
-        <img src={logo} height="80px" style={{ margin: "30px 0px 5px 0px" }} />
+        <img src={logo} height="80px" style={{ margin: "30px 0px 5px 0px" }} alt="Website Logo" />
         <Divider />
-        {drawerShowOption===drawerShowOptions.filter && renderFliterComponent()}
-        {drawerShowOption===drawerShowOptions.search && renderSearchComponent()}
+        {AppState.drawerOption === drawerShowOptions.filter && renderFliterComponent()}
+        {AppState.drawerOption === drawerShowOptions.search && renderSearchComponent()}
       </Box>
     </SwipeableDrawer>
   );
